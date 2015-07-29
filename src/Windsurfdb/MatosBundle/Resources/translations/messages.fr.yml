@@ -1,0 +1,44 @@
+windsurfdb:
+    matos:
+        form:
+            global:
+                add:
+                    btn:        Ajouter
+                modif:
+                    btn:        Modifier
+                delete:
+                    btn:        Supprimer
+            marque:
+                name:           Nom
+                description:    Description
+                exist:          En activité
+                url:            URL
+                type:           Type
+                type_choice:
+                    board:      Planche
+                    voile:      Voile
+                add:
+                    title:      Ajout de marque
+                    btn:        Ajouter
+                modif:
+                    title:      Modification de la marque
+                    btn:        Modifier
+                delete:
+                    title:      Suppression de la marque
+                    btn:        Supprimer
+                liste:
+                    title:      Marques
+            spec:
+                add:
+                    title:      Ajout d'une spécification
+                modif:
+                    title:      Modification d'une spécification
+                delete:
+                    title:      Suppression d'une spécification
+            board:
+                add:
+                    title:      Ajout d'une planche
+                modif:
+                    title:      Modification de la planche
+                delete:
+                    title:      Suppression de la planche

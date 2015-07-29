@@ -1,0 +1,34 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% block title %}{{ 'windsurfdb.matos.form.board.add.title'|trans }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+
+{% block body %}
+
+	<h1>{{ 'windsurfdb.matos.form.board.add.title'|trans }}</h1>
+
+	{{ form_start(form) }}
+		{{ form_errors(form) }}
+		<table>
+			<tbody>
+				{% for f in form if f.vars.name != 'save' and f.vars.name != '_token' %}
+					<tr>
+						<td>{{ form_label(f) }}</td>
+						<td>{{ form_widget(f) }}</td>
+					</tr>
+				{% endfor %}
+				<tr class="align-center">
+					<td colspan="2">{{ form_widget(form.save, {'label': 'windsurfdb.matos.form.global.add.btn' }) }}</td>
+				</tr>
+			</tbody>
+		</table>
+		{{ form_rest(form) }}
+	{{ form_end(form) }}
+
+{% endblock %}

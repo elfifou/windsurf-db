@@ -1,0 +1,63 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% set board_name_complete %}
+	{{ board.modele }} {% if board.annee != '' %}({{ board.annee }}){% endif %} - {{ board.marque.name }}
+{% endset %}
+
+{% block title %}{{ 'windsurfdb.matos.form.spec.modif.title'|trans }} {{ board_name_complete }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+	<style>
+		#windsurfdb_matosbundle_board_spec_images input, #windsurfdb_matosbundle_board_spec_images textarea {
+			width: auto;
+			margin: 0.2em;
+		}
+		#windsurfdb_matosbundle_board_spec_images > div > div > div:nth-child(3) label {
+			float: left;
+		}
+	</style>
+{% endblock %}
+
+
+{% block body %}
+
+	<h1>{{ 'windsurfdb.matos.form.spec.modif.title'|trans }}
+		<b>{{ spec.smodele }} {% if spec.volume != 0 %}{{ spec.volume }}L{% endif %}</b>
+		({{ board_name_complete }})
+	</h1>
+
+	<p>
+		<a href="{{ path('windsurfdb_matos_board_detail', {'slug': board.slug}) }}">Retour à la planche {{ board_name_complete }}</a>
+	</p>
+
+	{{ form_start(form) }}
+		{{ form_errors(form) }}
+		<table>
+			<tbody>
+				{% for f in form if f.vars.name != 'save' and f.vars.name != '_token' %}
+					<tr>
+						<td>{{ form_label(f) }}</td>
+						<td>{{ form_widget(f) }}</td>
+					</tr>
+				{% endfor %}
+				<tr class="align-center">
+					<td colspan="2">{{ form_widget(form.save, {'label': 'windsurfdb.matos.form.global.modif.btn' }) }}</td>
+				</tr>
+			</tbody>
+		</table>
+		{{ form_rest(form) }}
+	{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	{% javascripts filter='?yui_js' 'bundles/windsurfdb/js/matos/form_board_spec.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	{% javascripts filter='?yui_js' 'bundles/windsurfdb/js/matos/form_board_img.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% block title %}{{ marque.name }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+
+	<h1>Marque: <b>{{ marque.name }}</b></h1>
+	<p>
+		<a href="{{ path('windsurfdb_matos_liste_marque') }}">Retour à la liste des marques</a>
+		<br>
+		<a href="{{ path('windsurfdb_matos_board_add', {'slug_marque': marque.slug}) }}">{{ 'windsurfdb.matos.form.board.add.title'|trans }}</a>
+	</p>
+	<table>
+		<tbody>
+			<tr>
+				<th>#</th>
+				<th>Modèle</th>
+				<th>Année</th>
+				<th colspan="2">Action</th>
+			</tr>
+			{% for m in modeles %}
+			<tr>
+				<td><a href="{{ path('windsurfdb_matos_board_detail', {'slug': m.slug}) }}">{{ m.id }}</a></td>
+				<td>{{ m.modele }}</td>
+				<td>{{ m.annee }}</td>
+				<td><a href="{{ path('windsurfdb_matos_board_modif', {'slug': m.slug}) }}">{{ 'windsurfdb.matos.form.global.modif.btn'|trans }}</a></td>
+				<td><a href="{{ path('windsurfdb_matos_board_delete', {'slug': m.slug}) }}">{{ 'windsurfdb.matos.form.global.delete.btn'|trans }}</a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

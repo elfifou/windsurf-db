@@ -1,0 +1,8 @@
+h1 {
+	color: blue
+}
+
+h1 {
+	background-color: yellow;
+	background-image :url('../../Resources/public/img/cash.png');
+}

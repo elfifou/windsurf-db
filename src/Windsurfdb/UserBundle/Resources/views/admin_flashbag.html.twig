@@ -1,0 +1,5 @@
+{% if is_granted("ROLE_ADMIN") %}
+	{% for message in app.session.flashbag.get('admin_info') %}
+		<div class="flash-msg">{{ message }}</div>
+	{% endfor %}
+{% endif %}

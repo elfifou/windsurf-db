@@ -1,0 +1,38 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% block title %}{{ 'windsurfdb.matos.form.marque.liste.title'|trans }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+
+	<h1>{{ 'windsurfdb.matos.form.marque.liste.title'|trans }}</h1>
+	<p>
+		<a href="{{ path('windsurfdb_matos_add_marque') }}">{{ 'windsurfdb.matos.form.marque.add.btn'|trans }}</a>
+	</p>
+	<table>
+		<tbody>
+			<tr>
+				<th>#</th>
+				<th>Marque</th>
+				<th colspan="2">Action</th>
+			</tr>
+			{% for m in marques %}
+			<tr>
+				<td><a href="{{ path('windsurfdb_matos_detail_marque', {'slug': m.slug}) }}">{{ m.id }}</a></td>
+				<td>{{ m.name }}</td>
+				<td><a href="{{ path('windsurfdb_matos_modif_marque', {'id': m.id}) }}">{{ 'windsurfdb.matos.form.marque.modif.btn'|trans }}</a></td>
+				<td><a href="{{ path('windsurfdb_matos_delete_marque', {'id': m.id}) }}">{{ 'windsurfdb.matos.form.marque.delete.btn'|trans }}</a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% for message in app.session.flashbag.get('info') %}
+		<p>{{ message }}</p>
+	{% endfor %}
+
+{% endblock %}

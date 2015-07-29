@@ -1,0 +1,13 @@
+services:
+    windsurfdb_matos.form.contact:
+        class: Windsurfdb\MatosBundle\Form\MarqueType
+        arguments: [@translator]
+
+    windsurfdb_matos.url.image:
+        class: Windsurfdb\MatosBundle\Url\ImageUrl
+        arguments: [%baseurlimg%]
+
+#test :
+    windsurfdb_matos.trans.test:
+        class: Windsurfdb\BaseBundle\Trans\Test
+        arguments: [@translator, %locale%]

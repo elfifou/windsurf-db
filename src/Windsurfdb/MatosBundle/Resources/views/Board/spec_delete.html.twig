@@ -1,0 +1,37 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% set board_name_complete %}
+	{{ board.modele }} {% if board.annee != '' %}({{ board.annee }}){% endif %} - {{ board.marque.name }}
+{% endset %}
+
+{% block title %}{{ 'windsurfdb.matos.form.spec.delete.title'|trans }} {{ board_name_complete }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+	<h1>
+		{{ 'windsurfdb.matos.form.spec.delete.title'|trans }}
+		<b>{{ spec.smodele }} {% if spec.volume != 0 %}{{ spec.volume }}L{% endif %}</b>
+		({{ board_name_complete }})
+	</h1>
+
+	<p>
+		<a href="{{ path('windsurfdb_matos_board_detail', {'slug': board.slug}) }}">Retour à la planche {{ board_name_complete }}</a>
+	</p>
+
+	<a href="{{ path('windsurfdb_matos_board_detail', {'slug': board.slug}) }}">
+		Retour à la liste des spécifications de la planche: <b>{{ board_name_complete }}</b>
+	</a>
+
+	<p>
+		Confirmer la suppression de la spécification <b>{{ spec.smodele }} {% if spec.volume != 0 %}{{ spec.volume }}L{% endif %}</b> ?
+	</p>
+	{{ form_start(form) }}
+		{{ form_widget(form.save, {'label': 'windsurfdb.matos.form.global.delete.btn' }) }}
+		{{ form_rest(form) }}
+	{{ form_end(form) }}
+{% endblock %}

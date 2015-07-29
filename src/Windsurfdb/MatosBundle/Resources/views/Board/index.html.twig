@@ -1,0 +1,71 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+	<style>
+		tbody td.img {
+			max-width: 4em;
+			height: 5em;
+			text-align: center;
+			padding: 0;
+		}
+		tbody td.img img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+{% endblock %}
+{% block title %}Board{% endblock %}
+
+{% block body %}
+	<h1>Boards</h1>
+	<div class="select">
+		<label>Marques</label>
+		<select name="marques">
+			<option value="0">- Marque -</option>
+			{% for m in marques %}
+				<option value="{{m.id}}">{{ m.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="select">
+		<label>Modèles</label>
+		<select name="modeles">
+			<option value="0">- Modèle -</option>
+			{% for m in modeles %}
+				<option value="{{m.modele}}">{{ m.modele }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="select">
+		<label>Années</label>
+		<select name="annees">
+			<option value="0">- Années -</option>
+			{% for m in annees %}
+				<option value="{{m.annee}}">{{ m.annee }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<table>
+		<thead>
+			<th></th>
+			<th>Marque</th>
+			<th>Modèle</th>
+			<th>Volume</th>
+			<th>Longueur</th>
+			<th>Largeur</th>
+			<th class="poids">Poids <small>(Techno)</small></th>
+			<th>Programme(s)</th>
+			<th>Aileron <small>(Type de boitier)</small></th>
+			<th>Taille voiles</th>
+			<th>Prix</th>
+		</thead>
+		<tbody></tbody>
+	</table>
+{% endblock %}
+{% block javascripts %}
+	{% javascripts filter='?yui_js' 'bundles/windsurfdb/js/matos/indexBoard.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% set board_name_complete %}
+	{{ board.modele }} {% if board.annee != '' %}({{ board.annee }}){% endif %} - {{ board.marque.name }}
+{% endset %}
+
+{% block title %}{{ board_name_complete }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+	<style>
+		tbody td.img {
+			max-width: 4em;
+			height: 5em;
+			text-align: center;
+			padding: 0;
+		}
+		tbody td.img img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+
+	<h1>Modèle: <b>{{ board_name_complete }}</b></h1>
+	<p>
+		<a href="{{ path('windsurfdb_matos_detail_marque', {'slug': board.marque.slug}) }}">Retour à la liste des modèles pour la marque {{ board.marque.name }}</a>
+		<br>
+		<a href="{{ path('windsurfdb_matos_board_modif', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.board.modif.title'|trans }}</a><br>
+		<a href="{{ path('windsurfdb_matos_board_spec_add', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.spec.add.title'|trans }}</a>
+	</p>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Volume</th>
+				<th>Longueur</th>
+				<th>Largeur</th>
+				<th>Poids <small>(Techno)</small></th>
+				<th>Programme(s)</th>
+				<th>Aileron <small>(Type de boitier)</small></th>
+				<th>Taille voiles</th>
+				<th>Prix</th>
+				<th colspan="2">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for s in specs %}
+			<tr>
+				<td class="img">
+					{% if s.smodele != "" %}
+						<div>{{ s.smodele }}</div>
+					{% endif %}
+					{% if s.images[0] is defined %}
+						<img src="{{ s.images[0].url }}" alt="{{ s.images[0].alt }}">
+					{% endif %}
+					{% if s.images[1] is defined %}
+						<br><img src="{{ s.images[1].url }}" alt="{{ s.images[1].alt }}">
+					{% endif %}
+				</td>
+				<td>{{ s.volume }} L</td>
+				<td>{{ s.longueur }}</td>
+				<td>{{ s.largeur }}</td>
+				<td>
+					{% for key, p in s.poids %}
+						<div>
+							{% if s.techno[key] is defined and s.techno[key] != "" %}
+								{{ s.techno[key] }}:
+							{% endif %}
+							{% if p != 0 %}
+								{{ p }} kg
+							{% else %}
+								-
+							{% endif %}
+						</div>
+					{% endfor %}
+				</td>
+				<td>
+					{% if not s.programmes.empty %}
+						{% for category in s.programmes %}
+							{{ category.name }}{% if not loop.last %} / {% endif %}
+						{% endfor %}
+					{% else %}
+						-
+					{% endif %}
+				</td>
+				<td>
+					{% for key, p in s.fin %}
+						<div>
+							{% if p == "NF" %}
+								Aileron non fourni
+							{% else %}
+								{{ p }}
+							{% endif %}
+							{% if s.box[key] is defined and s.box[key] != "" %}
+								({{ s.box[key] }})
+							{% endif %}
+						</div>
+					{% endfor %}
+				</td>
+				<td>
+					{% if s.voileMini is defined %}
+						{{ s.voileMini }}
+					{% endif %}
+						-
+					{% if s.voileMaxi is defined %}
+						{{ s.voileMaxi }}
+					{% endif %}
+				</td>
+				<td>
+					{% for key, p in s.prix %}
+						<div>
+							{{ p }}
+						</div>
+					{% endfor %}
+				</td>
+				<td>
+					<a href="{{ path('windsurfdb_matos_board_spec_modif', {'slug': board.slug, 'id': s.id}) }}">
+						{{ 'windsurfdb.matos.form.global.modif.btn'|trans }}
+					</a>
+				</td>
+				<td>
+					<a href="{{ path('windsurfdb_matos_board_spec_delete', {'slug': board.slug,'id': s.id}) }}">
+						{{ 'windsurfdb.matos.form.global.delete.btn'|trans }}
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

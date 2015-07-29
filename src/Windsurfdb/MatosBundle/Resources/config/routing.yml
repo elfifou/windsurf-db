@@ -1,0 +1,74 @@
+windsurfdb_matos_board:
+    path:     /board
+    defaults: { _controller: WindsurfdbMatosBundle:Board:index }
+
+windsurfdb_matos_board_add:
+    path:     /board/add/{slug_marque}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:boardAdd, slug_marque: null }
+
+windsurfdb_matos_board_modif:
+    path:     /board/modif/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:boardModif }
+
+windsurfdb_matos_board_delete:
+    path:     /board/delete/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:boardDelete }
+
+windsurfdb_matos_board_spec_add:
+    path:     /board/spec/add/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:specAdd }
+
+windsurfdb_matos_board_spec_modif:
+    path:     /board/spec/modif/{slug}/{id}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:specModif }
+    requirements:
+        id: \d+
+
+windsurfdb_matos_board_spec_delete:
+    path:     /board/spec/delete/{slug}/{id}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:specDelete }
+    requirements:
+        id: \d+
+
+windsurfdb_matos_board_import:
+    path:     /board/import/{marque}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:import }
+
+windsurfdb_matos_board_detail:
+    path:     /board/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:detail }
+
+
+windsurfdb_matos_liste_marque:
+    path:     /marque/liste
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:liste }
+
+windsurfdb_matos_add_marque:
+    path:     /marque/add
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:add }
+
+windsurfdb_matos_modif_marque:
+    path:     /marque/modif/{id}
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:modif }
+    requirements:
+        id: \d+
+
+windsurfdb_matos_delete_marque:
+    path:     /marque/delete/{id}
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:delete }
+    requirements:
+        id: \d+
+
+windsurfdb_matos_marque_import:
+    path:     /marque/import
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:import }
+
+windsurfdb_matos_detail_marque:
+    path:     /marque/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Marque:detail }
+
+
+windsurfdb_matos_ajax_board_index:
+    path:     /ajax/board_index
+    defaults: { _controller: WindsurfdbMatosBundle:Ajax:boardIndex }
+    condition: "context.getMethod() in ['POST'] and request.isXmlHttpRequest()"

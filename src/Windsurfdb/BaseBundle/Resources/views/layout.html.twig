@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{app.request.locale|lower}}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}Indefini{% endblock %} - {{ 'windsurfdb.base.main.title'|trans }}</title>
+		<link rel="stylesheet" type="text/css" href="{{ asset('bundles/windsurfdb/css/normalize.min.css') }}">
+		{% stylesheets filter='?yui_css' 'bundles/windsurfdb/css/base.css' %}
+			<link rel="stylesheet" type="text/css" href="{{ asset_url }}">
+		{% endstylesheets %}
+		{% block head %}{% endblock %}
+		<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+	</head>
+	<body>
+		{% include "WindsurfdbUserBundle::co_nav.html.twig" %}
+		{% block body %}{% endblock %}
+		{% include "WindsurfdbUserBundle::admin_flashbag.html.twig" %}
+		{% if block('javascripts') is not empty %}
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		{% endif %}
+		{% block javascripts %}{% endblock %}
+  </body>
+</html>

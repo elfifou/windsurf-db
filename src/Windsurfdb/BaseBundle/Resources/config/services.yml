@@ -1,0 +1,4 @@
+services:
+#    windsurfdb_base.example:
+#        class: Windsurfdb\BaseBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

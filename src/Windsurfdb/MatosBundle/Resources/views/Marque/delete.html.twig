@@ -1,0 +1,25 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% block title %}{{ 'windsurfdb.matos.form.marque.delete.title'|trans }} <b>{{ marque.name }}</b>{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+	<h1>{{ 'windsurfdb.matos.form.marque.delete.title'|trans }} <b>{{ marque.name }}</b></h1>
+
+	<a href="{{ path('windsurfdb_matos_modif_marque', {'id': marque.id}) }}">
+		Retour à la liste des marques
+	</a>
+
+	<p>
+		Confirmer la suppression de la marque <b>{{ marque.name }}</b> ?
+	</p>
+	{{ form_start(form) }}
+		<input type="submit" value="{{ 'windsurfdb.matos.form.marque.delete.btn'|trans }}">
+		{{ form_rest(form) }}
+	{{ form_end(form) }}
+{% endblock %}

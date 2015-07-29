@@ -1,0 +1,11 @@
+windsurfdb_base_home:
+    path:     /
+    defaults: { _controller: WindsurfdbBaseBundle:Base:index }
+
+windsurfdb_base_contact:
+    path:     /contact
+    defaults: { _controller: WindsurfdbBaseBundle:Base:contact }
+
+windsurfdb_base_plan_du_site:
+    path:     /plan_du_site
+    defaults: { _controller: WindsurfdbBaseBundle:Base:planDuSite }
