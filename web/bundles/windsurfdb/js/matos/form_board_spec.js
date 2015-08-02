@@ -1,43 +1,12 @@
 (function($) {
 	$(document).ready(function() {
-		$('#windsurfdb_matosbundle_board_spec_poids, #windsurfdb_matosbundle_board_spec_techno, #windsurfdb_matosbundle_board_spec_prix, #windsurfdb_matosbundle_board_spec_fin, #windsurfdb_matosbundle_board_spec_box').each(function(i) {
-			var $container = $(this);
-			var $addLink = $('<button type="button">Ajouter un champ</button>');
-			$container.prepend($addLink);
-
-			$addLink.click(function(e) {
-				addChamp($container);
+		$('button#add_techno').click(function() {
+			nb_techno++;
+			var $html = $('<tr class="s-spec" id="t_'+nb_techno+'"><td>S-spec '+(nb_techno + 1)+'<div><button type="button" class="delete">Supprimer</button></div></td><td><table><tbody><tr><td><label>Techno</label></td><td><input type="text" id="windsurfdb_matosbundle_board_spec_techno_'+nb_techno+'" name="windsurfdb_matosbundle_board_spec[techno]['+nb_techno+']"></td></tr><tr><td><label>Poids</label></td><td><input type="text" id="windsurfdb_matosbundle_board_spec_poids_'+nb_techno+'" name="windsurfdb_matosbundle_board_spec[poids]['+nb_techno+']"></td></tr><tr><td><label>Prix</label></td><td><input type="text" id="windsurfdb_matosbundle_board_spec_prix_'+nb_techno+'" name="windsurfdb_matosbundle_board_spec[prix]['+nb_techno+']"></td></tr><tr><td><label>Box</label></td><td><input type="text" id="windsurfdb_matosbundle_board_spec_box_'+nb_techno+'" name="windsurfdb_matosbundle_board_spec[box]['+nb_techno+']"></td></tr><tr><td><label>Fin</label></td><td><input type="text" id="windsurfdb_matosbundle_board_spec_fin_'+nb_techno+'" name="windsurfdb_matosbundle_board_spec[fin]['+nb_techno+']"></td></tr></tbody></table></td></tr>');
+			$html.insertBefore('.infos');
+			$('#t_'+nb_techno+' button.delete').click(function() {
+				$(this).parent().parent().parent().remove();
 			});
-
-			var index = $container.find('input').length;
-
-			if (index == 0 && (i == 0 || i == 1)) {
-				addChamp($container);
-			} else {
-				$container.children('div').each(function() {
-					addDeleteLink($(this));
-				});
-			}
-
-			function addChamp($container) {
-				var $prototype = $($container.attr('data-prototype').replace(/__name__/g, index));
-
-				addDeleteLink($prototype);
-
-				$container.append($prototype);
-
-				index++;
-			}
-
-			function addDeleteLink($prototype) {
-				$deleteLink = $('<button type="button">Supprimer</button>');
-
-				$prototype.append($deleteLink);
-
-				$deleteLink.click(function(e) {
-					$prototype.remove();
-				});
-			}
 		});
 	});
 }(jQuery));

@@ -18,6 +18,15 @@
 		#windsurfdb_matosbundle_board_spec_images > div > div > div:nth-child(3) label {
 			float: left;
 		}
+		.s-spec table {
+			width: 100%;
+		}
+		.s-spec table tr td:first-child {
+			width: 5em;
+		}
+		.s-spec table input:not([type="checkbox"]) {
+			width: 100% !important;
+		}
 	</style>
 {% endblock %}
 
@@ -33,27 +42,125 @@
 		<a href="{{ path('windsurfdb_matos_board_detail', {'slug': board.slug}) }}">Retour à la planche {{ board_name_complete }}</a>
 	</p>
 
-	{{ form_start(form) }}
+	<form name="windsurfdb_matosbundle_board_spec" method="post" action="">
 		{{ form_errors(form) }}
 		<table>
 			<tbody>
-				{% for f in form if f.vars.name != 'save' and f.vars.name != '_token' %}
+				{% set ar = ['save', '_token', 'infos', 'techno', 'poids', 'prix', 'box', 'fin'] %}
+				{% for f in form if f.vars.name not in ar %}
 					<tr>
 						<td>{{ form_label(f) }}</td>
 						<td>{{ form_widget(f) }}</td>
 					</tr>
 				{% endfor %}
+				<tr>
+					<td colspan="2"><button type="button" id="add_techno">Ajouter techno</button></td>
+				</tr>
+				<tr class="s-spec">
+					<td>S-spec 1</td>
+					<td>
+						<table>
+							<tbody>
+								<tr>
+									<td><label>Techno</label></td>
+									<td>
+										<input type="text" value="{% if data.techno is not null and data.techno is not empty %}{{ data.techno[0] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_techno_0" name="windsurfdb_matosbundle_board_spec[techno][0]">
+									</td>
+								</tr>
+								<tr>
+									<td><label>Poids</label></td>
+									<td>
+										<input type="text" value="{% if data.poids is not null and data.poids is not empty %}{{ data.poids[0] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_poids_0" name="windsurfdb_matosbundle_board_spec[poids][0]">
+									</td>
+								</tr>
+								<tr>
+									<td><label>Prix</label></td>
+									<td>
+										<input type="text" value="{% if data.prix is not null and data.prix is not empty %}{{ data.prix[0] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_prix_0" name="windsurfdb_matosbundle_board_spec[prix][0]">
+									</td>
+								</tr>
+								<tr>
+									<td><label>Box</label></td>
+									<td>
+										<input type="text" value="{% if data.box is not null and data.box is not empty %}{{ data.box[0] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_box_0" name="windsurfdb_matosbundle_board_spec[box][0]">
+									</td>
+								</tr>
+								<tr>
+									<td><label>Fin</label></td>
+									<td>
+										<input type="text" value="{% if data.fin is not null and data.fin is not empty %}{{ data.fin[0] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_fin_0" name="windsurfdb_matosbundle_board_spec[fin][0]">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				{% if data.techno is not null and data.techno|length > 1 %}
+					{% for i in 1..data.techno|length - 1 %}
+						<tr class="s-spec" id="t_{{i}}">
+							<td>S-spec {{i+1}}<div><button type="button" class="delete">Supprimer</button></div></td>
+							<td>
+								<table>
+									<tbody>
+										<tr>
+											<td><label>Techno</label></td>
+											<td>
+												<input type="text" value="{% if data.techno[i] is defined %}{{ data.techno[i] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_techno_{{i}}" name="windsurfdb_matosbundle_board_spec[techno][{{i}}]">
+											</td>
+										</tr>
+										<tr>
+											<td><label>Poids</label></td>
+											<td>
+												<input type="text" value="{% if data.poids[i] is defined %}{{ data.poids[i] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_poids_{{i}}" name="windsurfdb_matosbundle_board_spec[poids][{{i}}]">
+											</td>
+										</tr>
+										<tr>
+											<td><label>Prix</label></td>
+											<td>
+												<input type="text" value="{% if data.prix[i] is defined %}{{ data.prix[i] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_prix_{{i}}" name="windsurfdb_matosbundle_board_spec[prix][{{i}}]">
+											</td>
+										</tr>
+										<tr>
+											<td><label>Box</label></td>
+											<td>
+												<input type="text" value="{% if data.box[i] is defined %}{{ data.box[i] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_box_{{i}}" name="windsurfdb_matosbundle_board_spec[box][{{i}}]">
+											</td>
+										</tr>
+										<tr>
+											<td><label>Fin</label></td>
+											<td>
+												<input type="text" value="{% if data.fin[i] is defined %}{{ data.fin[i] }}{% endif %}" id="windsurfdb_matosbundle_board_spec_fin_{{i}}" name="windsurfdb_matosbundle_board_spec[fin][{{i}}]">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+				<tr class="infos">
+					<td>{{ form_label(form.infos) }}</td>
+					<td>{{ form_widget(form.infos) }}</td>
+				</tr>
 				<tr class="align-center">
 					<td colspan="2">{{ form_widget(form.save, {'label': 'windsurfdb.matos.form.global.modif.btn' }) }}</td>
 				</tr>
 			</tbody>
 		</table>
-		{{ form_rest(form) }}
-	{{ form_end(form) }}
+		{{ form_row(form._token) }}
+	</form>
 
 {% endblock %}
 
 {% block javascripts %}
+	<script>
+		var nb_techno = {{ data.techno|length - 1 }};
+		$('.s-spec button.delete').each(function(i) {
+			$(this).click(function() {
+				$(this).parent().parent().parent().remove();
+			});
+		});
+	</script>
 	{% javascripts filter='?yui_js' 'bundles/windsurfdb/js/matos/form_board_spec.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}

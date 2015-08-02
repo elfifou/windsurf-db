@@ -33,6 +33,7 @@
 		<a href="{{ path('windsurfdb_matos_board_modif', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.board.modif.title'|trans }}</a><br>
 		<a href="{{ path('windsurfdb_matos_board_spec_add', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.spec.add.title'|trans }}</a>
 	</p>
+
 	<table>
 		<thead>
 			<tr>
@@ -50,85 +51,130 @@
 		</thead>
 		<tbody>
 			{% for s in specs %}
-			<tr>
-				<td class="img">
-					{% if s.smodele != "" %}
-						<div>{{ s.smodele }}</div>
-					{% endif %}
-					{% if s.images[0] is defined %}
-						<img src="{{ s.images[0].url }}" alt="{{ s.images[0].alt }}">
-					{% endif %}
-					{% if s.images[1] is defined %}
-						<br><img src="{{ s.images[1].url }}" alt="{{ s.images[1].alt }}">
-					{% endif %}
-				</td>
-				<td>{{ s.volume }} L</td>
-				<td>{{ s.longueur }}</td>
-				<td>{{ s.largeur }}</td>
-				<td>
-					{% for key, p in s.poids %}
-						<div>
-							{% if s.techno[key] is defined and s.techno[key] != "" %}
-								{{ s.techno[key] }}:
-							{% endif %}
-							{% if p != 0 %}
-								{{ p }} kg
-							{% else %}
-								-
-							{% endif %}
-						</div>
-					{% endfor %}
-				</td>
-				<td>
-					{% if not s.programmes.empty %}
-						{% for category in s.programmes %}
-							{{ category.name }}{% if not loop.last %} / {% endif %}
-						{% endfor %}
-					{% else %}
-						-
-					{% endif %}
-				</td>
-				<td>
-					{% for key, p in s.fin %}
-						<div>
-							{% if p == "NF" %}
-								Aileron non fourni
-							{% else %}
-								{{ p }}
-							{% endif %}
-							{% if s.box[key] is defined and s.box[key] != "" %}
-								({{ s.box[key] }})
-							{% endif %}
-						</div>
-					{% endfor %}
-				</td>
-				<td>
-					{% if s.voileMini is defined %}
-						{{ s.voileMini }}
-					{% endif %}
-						-
-					{% if s.voileMaxi is defined %}
-						{{ s.voileMaxi }}
-					{% endif %}
-				</td>
-				<td>
-					{% for key, p in s.prix %}
-						<div>
-							{{ p }}
-						</div>
-					{% endfor %}
-				</td>
-				<td>
-					<a href="{{ path('windsurfdb_matos_board_spec_modif', {'slug': board.slug, 'id': s.id}) }}">
-						{{ 'windsurfdb.matos.form.global.modif.btn'|trans }}
-					</a>
-				</td>
-				<td>
-					<a href="{{ path('windsurfdb_matos_board_spec_delete', {'slug': board.slug,'id': s.id}) }}">
-						{{ 'windsurfdb.matos.form.global.delete.btn'|trans }}
-					</a>
-				</td>
-			</tr>
+				{% if board.oldBdd == 0 %}
+					{% set nbreTechno = s.getNbreTechno - 1 %}
+				{% endif %}
+				<tr>
+					<td class="img">
+						{% if s.smodele != "" %}
+							<div>{{ s.smodele }}</div>
+						{% endif %}
+						{% if s.images[0] is defined %}
+							<img src="{{ s.images[0].url }}" alt="{{ s.images[0].alt }}">
+						{% endif %}
+						{% if s.images[1] is defined %}
+							<br><img src="{{ s.images[1].url }}" alt="{{ s.images[1].alt }}">
+						{% endif %}
+					</td>
+					<td>{{ s.volume }} L</td>
+					<td>{{ s.longueur }}</td>
+					<td>{{ s.largeur }}</td>
+					<td>
+						{% if board.oldBdd == 0 %}
+							{% for key in 0..nbreTechno %}
+								<div>
+									{% if s.techno[key] is defined and s.techno[key] != "" %}
+										{{ s.techno[key] }}:
+									{% endif %}
+									{% if s.poids[key] is defined and s.poids[key] != 0 %}
+										{{ s.poids[key] }} kg
+									{% else %}
+										-
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% else %}
+							{% for key, p in s.poids %}
+								<div>
+									{% if s.techno[key] is defined and s.techno[key] != "" %}
+										{{ s.techno[key] }}:
+									{% endif %}
+									{% if p != 0 %}
+										{{ p }} kg
+									{% else %}
+										-
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% endif %}
+					</td>
+					<td>
+						{% if not s.programmes.empty %}
+							{% for category in s.programmes %}
+								{{ category.name }}{% if not loop.last %} / {% endif %}
+							{% endfor %}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+					<td>
+						{% if board.oldBdd == 0 %}
+							{% for key in 0..nbreTechno %}
+								<div>
+									{% if s.fin[key] is defined %}
+										{% if s.fin[key] == "NF" %}
+											Aileron non fourni
+										{% else %}
+											{{ s.fin[key] }}
+										{% endif %}
+									{% endif %}
+									{% if s.box[key] is defined and s.box[key] != "" %}
+										({{ s.box[key] }})
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% else %}
+							{% for key, p in s.fin %}
+								<div>
+									{% if p == "NF" %}
+										Aileron non fourni
+									{% else %}
+										{{ p }}
+									{% endif %}
+									{% if s.box[key] is defined and s.box[key] != "" %}
+										({{ s.box[key] }})
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% endif %}
+					</td>
+					<td>
+						{% if s.voileMini is defined %}
+							{{ s.voileMini }}
+						{% endif %}
+							-
+						{% if s.voileMaxi is defined %}
+							{{ s.voileMaxi }}
+						{% endif %}
+					</td>
+					<td>
+						{% if board.oldBdd == 0 %}
+							{% for key in 0..nbreTechno %}
+								<div>
+									{% if s.prix[key] is defined %}
+										{{ s.prix[key] }}
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% else %}
+							{% for key, p in s.prix %}
+								<div>
+									{{ p }}
+								</div>
+							{% endfor %}
+						{% endif %}
+					</td>
+					<td>
+						<a href="{{ path('windsurfdb_matos_board_spec_modif', {'slug': board.slug, 'id': s.id}) }}">
+							{{ 'windsurfdb.matos.form.global.modif.btn'|trans }}
+						</a>
+					</td>
+					<td>
+						<a href="{{ path('windsurfdb_matos_board_spec_delete', {'slug': board.slug,'id': s.id}) }}">
+							{{ 'windsurfdb.matos.form.global.delete.btn'|trans }}
+						</a>
+					</td>
+				</tr>
 			{% endfor %}
 		</tbody>
 	</table>

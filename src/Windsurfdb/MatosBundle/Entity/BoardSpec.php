@@ -99,7 +99,6 @@ class BoardSpec
      *
      * @ORM\Column(name="box", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\NotBlank(),
      *     @Assert\Length(max = "50")
      * })
      */
@@ -110,7 +109,6 @@ class BoardSpec
      *
      * @ORM\Column(name="fin", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\NotBlank(),
      *     @Assert\Length(max = "50")
      * })
      */
@@ -131,7 +129,6 @@ class BoardSpec
      *
      * @ORM\Column(name="poids", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\NotBlank(),
      *     @Assert\Type(type="numeric"),
      *     @Assert\Length(max = "5")
      * })
@@ -143,7 +140,6 @@ class BoardSpec
      *
      * @ORM\Column(name="prix", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\NotBlank(),
      *     @Assert\Length(max = "7")
      * })
      */
@@ -563,6 +559,11 @@ class BoardSpec
     public function getImages()
     {
         return $this->images;
+    }
+
+    public function getNbreTechno() {
+        $nb = count($this->techno);
+        return $nb;
     }
 
     public function ajaxOutput(array $var) {

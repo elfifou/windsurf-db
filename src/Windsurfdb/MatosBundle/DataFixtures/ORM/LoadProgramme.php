@@ -21,7 +21,8 @@ class LoadProgramme implements FixtureInterface {
 			'Beginner',
 			'Kids',
 			'Tandem',
-			'One Design'
+			'One Design',
+			'Formula'
 		);
 
 		foreach ($names as $name) {

@@ -32,8 +32,12 @@ class BoardController extends Controller {
 			throw new NotFoundHttpException("La planche '".$slug."' n'existe pas.");
 		}
 
-		$specs = $em->getRepository('WindsurfdbMatosBundle:BoardSpec')->findByBoard($board);
+		$old_bdd = false;
+		if($board->getOldBdd()) {
+			$old_bdd = true;
+		}
 
+		$specs = $em->getRepository('WindsurfdbMatosBundle:BoardSpec')->findByBoard($board);
 		foreach ($specs as $key => $value) {
 			$img = $value->getImages();
 			if(isset($img)) {
@@ -71,10 +75,15 @@ class BoardController extends Controller {
 			$em->flush();
 			$request->getSession()->getFlashBag()->add('admin_info', 'Spécification ajoutée avec succès !');
 			//return $this->redirect($this->generateUrl('windsurfdb_matos_board_detail', array('slug' => $slug)));
+			$data = $form->getData();
+		}
+		else {
+			$data = new BoardSpec();
 		}
 		/* ------------------------------------------------------ */
 		return $this->render('WindsurfdbMatosBundle:Board:spec_add.html.twig', array(
 			'board' => $board,
+			'data' => $data,
 			'form' => $form->createView(),
 		));
 	}
@@ -105,6 +114,7 @@ class BoardController extends Controller {
 		return $this->render('WindsurfdbMatosBundle:Board:spec_modif.html.twig', array(
 			'board' => $board,
 			'spec'=> $spec,
+			'data'=> $spec,
 			'form' => $form->createView(),
 		));
 	}
