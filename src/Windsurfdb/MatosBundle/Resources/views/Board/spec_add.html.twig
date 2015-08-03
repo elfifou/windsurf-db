@@ -150,6 +150,9 @@
 {% block javascripts %}
 	<script>
 		var nb_techno = {{ data.techno|length - 1 }};
+		if(nb_techno < 0) {
+			nb_techno = 0;
+		}
 		$('.s-spec button.delete').each(function(i) {
 			$(this).click(function() {
 				$(this).parent().parent().parent().remove();

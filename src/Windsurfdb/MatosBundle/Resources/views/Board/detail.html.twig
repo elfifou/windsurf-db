@@ -31,7 +31,8 @@
 		<a href="{{ path('windsurfdb_matos_detail_marque', {'slug': board.marque.slug}) }}">Retour à la liste des modèles pour la marque {{ board.marque.name }}</a>
 		<br>
 		<a href="{{ path('windsurfdb_matos_board_modif', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.board.modif.title'|trans }}</a><br>
-		<a href="{{ path('windsurfdb_matos_board_spec_add', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.spec.add.title'|trans }}</a>
+		<a href="{{ path('windsurfdb_matos_board_spec_add', {'slug': board.slug}) }}">{{ 'windsurfdb.matos.form.spec.add.title'|trans }}</a><br>
+		<a href="{{ path('windsurfdb_matos_board_spec_import_another_year', {'slug': board.slug}) }}">Importer une autre année</a>
 	</p>
 
 	<table>

@@ -99,7 +99,7 @@ class BoardSpec
      *
      * @ORM\Column(name="box", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\Length(max = "50")
+     *     @Assert\Length(max = "100")
      * })
      */
     private $box;
@@ -109,7 +109,7 @@ class BoardSpec
      *
      * @ORM\Column(name="fin", type="array", nullable=true)
      * @Assert\All({
-     *     @Assert\Length(max = "50")
+     *     @Assert\Length(max = "100")
      * })
      */
     private $fin;
@@ -163,6 +163,10 @@ class BoardSpec
     public function __construct() {
         $this->date = new \Datetime();
         $this->programmes = new ArrayCollection();
+    }
+
+    public function __clone() {
+        $this->id = null;
     }
 
     /**

@@ -38,6 +38,10 @@ windsurfdb_matos_board_detail:
     path:     /board/{slug}
     defaults: { _controller: WindsurfdbMatosBundle:Board:detail }
 
+windsurfdb_matos_board_spec_import_another_year:
+    path:     /board/import_another_year/{slug}
+    defaults: { _controller: WindsurfdbMatosBundle:Board:importAnotherYear }
+
 
 windsurfdb_matos_liste_marque:
     path:     /marque/liste

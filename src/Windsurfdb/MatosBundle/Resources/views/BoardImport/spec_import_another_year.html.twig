@@ -1,0 +1,30 @@
+{% extends "WindsurfdbBaseBundle::layout.html.twig" %}
+
+{% set board_name_complete %}
+	{{ board.modele }} {% if board.annee != '' %}({{ board.annee }}){% endif %} - {{ board.marque.name }}
+{% endset %}
+
+{% block title %}{{ board_name_complete }}{% endblock %}
+
+{% block head %}
+	{% stylesheets filter='cssrewrite, ?yui_css' 'bundles/windsurfdb/less/test.less' %}
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+	{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+
+<h1>{{ board_name_complete }}</h1>
+<form method="post">
+	<div>
+		<label>Choisir l'année à copier</label>
+		<select name="annee">
+			{% for a in annees %}
+				<option value="{{a}}">{{a}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<input type="submit" value="Importer">
+</form>
+
+{% endblock %}

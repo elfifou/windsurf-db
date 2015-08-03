@@ -58,6 +58,51 @@ class BoardController extends Controller {
 	/**
 	 * @Security("has_role('ROLE_ADMIN')")
 	 */
+	public function importAnotherYearAction($slug, Request $request) {
+		$em = $this->getDoctrine()->getManager();
+		$board = $em->getRepository('WindsurfdbMatosBundle:Board')->getModeleWithMarque($slug);
+		if (null === $board) {
+			throw new NotFoundHttpException("La planche '".$slug."' n'existe pas.");
+		}
+
+		$marque = $board->getMarque();
+		$modele = $board->getModele();
+
+		if($request->isMethod('POST')) {
+			$annee = $request->request->get('annee');
+			$new_board = $em->getRepository('WindsurfdbMatosBundle:Board')->findOneBy(array('modele'=>$modele, 'marque'=>$marque, 'annee'=>$annee));
+			$specs = $em->getRepository('WindsurfdbMatosBundle:BoardSpec')->findByBoard($new_board);
+			$new_specs = array();
+			foreach ($specs as $key => $spec) {
+				$new_specs[$key] = clone $spec;
+				$new_specs[$key]->setBoard($board);
+				$new_specs[$key]->setDate(new \Datetime());
+				$em->detach($new_specs[$key]);
+				$em->persist($new_specs[$key]);
+			}
+			$em->flush();
+			$request->getSession()->getFlashBag()->add('admin_info', 'Spécifications importées avec succès !');
+			return $this->redirect($this->generateUrl('windsurfdb_matos_board_detail', array('slug' => $slug)));
+		}
+
+		$boards = $em->getRepository('WindsurfdbMatosBundle:Board')->findBy(array('modele'=>$modele, 'marque'=>$marque), array('annee'=>'desc'));
+
+		$annees = array();
+		foreach ($boards as $value) {
+			if($value!=$board) {
+				$annees[] = $value->getAnnee();
+			}
+		}
+
+		return $this->render('WindsurfdbMatosBundle:BoardImport:spec_import_another_year.html.twig', array(
+			'board' => $board,
+			'annees' => $annees
+		));
+	}
+
+	/**
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
 	public function specAddAction($slug, Request $request) {
 		$em = $this->getDoctrine()->getManager();
 
