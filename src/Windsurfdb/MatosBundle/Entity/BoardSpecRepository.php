@@ -18,6 +18,7 @@ class BoardSpecRepository extends EntityRepository
 			->leftJoin('a.programmes', 'c')
 			->addSelect('c')
 			->setParameter('board', $board->getId())
+			->orderBy('a.volume')
 		;
 
 		return $qb

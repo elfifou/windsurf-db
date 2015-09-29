@@ -75,8 +75,17 @@ class BoardController extends Controller {
 			$new_specs = array();
 			foreach ($specs as $key => $spec) {
 				$new_specs[$key] = clone $spec;
+				$em->detach($spec);
 				$new_specs[$key]->setBoard($board);
 				$new_specs[$key]->setDate(new \Datetime());
+				$img = $new_specs[$key]->getImages();
+
+				foreach ($img as $v) {
+					$img2 = clone $v;
+					$new_specs[$key]->removeImage($v);
+					$new_specs[$key]->addImage($img2);
+				}
+
 				$em->detach($new_specs[$key]);
 				$em->persist($new_specs[$key]);
 			}
